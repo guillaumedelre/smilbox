@@ -49,10 +49,24 @@ class PiCamera
         }
         $options[] = '--encoding jpg'; // jpeg encoding
         $options[] = '--vstab'; // stabilization
-        $options[] = '--fullpreview'; // use settings for preview
-        $options[] = '--fullscreen'; // use settings for preview
-        $options[] = sprintf('--exif date="%s"', $now->format('Y-m-d H:i:s')); // use settings for preview
+        $options[] = '--preview 0,0,1296,976'; // preview
+        $options[] = sprintf('--exif date="%s"', $now->format('Y-m-d H:i:s')); // put the date in exif
         $options[] = '-v'; // verbose
+
+        $command = sprintf('raspistill %s', implode(' ', $options));
+
+        return $this->process($command);
+    }
+
+    /**
+     * @return bool
+     */
+    public function timelaps()
+    {
+        $now = new \DateTimeImmutable();
+
+        $options = [];
+        $options[] = sprintf('--output %s/pic-%d.jpg', $this->outputDir, $now->getTimestamp()); // filename
 
         $command = sprintf('raspistill %s', implode(' ', $options));
 
@@ -65,15 +79,16 @@ class PiCamera
      */
     private function process($command)
     {
-        $return = false;
+        $return = true;
 
         $process = new Process($command);
-        try {
-            $process->run();
+        $process->run();
+
+        if (!$process->isSuccessful()) {
+            $return = false;
+            $this->logger->error($process->getErrorOutput());
+        } else {
             $this->logger->info($process->getOutput());
-            $return = true;
-        } catch (\Exception $e) {
-            $this->logger->error($e->getMessage());
         }
 
         return $return;

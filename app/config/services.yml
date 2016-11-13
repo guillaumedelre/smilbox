@@ -7,12 +7,12 @@ parameters:
             timeout: { command: '--timeout', default: 5000, min:1000, max: 30000}
             sharpness: { command: '--sharpness', default: 0, min:-100, max: 100}
             contrast: { command: '--contrast', default: 0, min:-100, max: 100}
-            brightness: { command: '--brightness', default: 0, min:-100, max: 100}
+            #brightness: { command: '--brightness', default: 0, min:-100, max: 100}
             saturation: { command: '--saturation', default: 0, min:-100, max: 100}
             quality: { command: '--quality', default: 100, min:0, max: 100}
             iso: { command: '--ISO', default: 0, collection: [0, 100, 200, 320, 400, 500, 640, 800, 1600] }
             dcr: { command: '--drc', default: 'off', collection: ['off', 'low', 'med','high'] }
-            metering: { command: '--metering', default: 'average', collection: ['average', 'spot', 'backlit', 'matrix'] }
+            #metering: { command: '--metering', default: 'average', collection: ['average', 'spot', 'backlit', 'matrix'] }
             effect: { command: '--imxfx', default: 'none', collection: ['none','negative','solarise','sketch','denoise','emboss','oilpaint','hatch','gpen','pastel','watercolour','film','blur','saturation','colourswap','washedout','posterise','colourpoint','colourbalance','cartoon'] }
             awb: { command: '--awb', default: 'off', collection: ['off','auto','sun','cloud','shade','tungsten','fluorescent','incandescent','flash','horizon'] }
             exposure: { command: '--exposure', default: 'off', collection: ['off','auto','night','nightpreview','backlight','spotlight','sports','snow','beach','verylong','fixedfps','antishake','fireworks'] }
