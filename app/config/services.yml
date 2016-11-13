@@ -4,23 +4,23 @@ parameters:
     pi_camera:
         output_dir: '/home/pi/smilebox/web/photos'
         defaults:
-            timeout: { command: '--timeout', default: 5000, min:1000, max: 30000}
-            sharpness: { command: '--sharpness', default: 0, min:-100, max: 100}
-            contrast: { command: '--contrast', default: 0, min:-100, max: 100}
-            brightness: { command: '--brightness', default: 50, min:0, max: 100}
-            saturation: { command: '--saturation', default: 0, min:-100, max: 100}
-            quality: { command: '--quality', default: 100, min:0, max: 100}
-            colfx: {command: '--colfx', default: '128,128', min:0, max: 255}
-            iso: { command: '--ISO', default: 0, collection: [0, 100, 200, 320, 400, 500, 640, 800, 1600] }
-            dcr: { command: '--drc', default: 'off', collection: ['off', 'low', 'med','high'] }
-            metering: { command: '--metering', default: 'matrix', collection: ['average', 'spot', 'backlit', 'matrix'] }
-            imxfx: { command: '--imxfx', default: 'none', collection: ['none','negative','solarise','sketch','denoise','emboss','oilpaint','hatch','gpen','pastel','watercolour','film','blur','saturation','colourswap','washedout','posterise','colourpoint','colourbalance','cartoon'] }
-            awb: { command: '--awb', default: 'off', collection: ['off','auto','sun','cloud','shade','tungsten','fluorescent','incandescent','flash','horizon'] }
-            exposure: { command: '--exposure', default: 'off', collection: ['off','auto','night','nightpreview','backlight','spotlight','sports','snow','beach','verylong','fixedfps','antishake','fireworks'] }
+            timeout: { command: '--timeout', model: 'range', default: 5000, min:1000, max: 30000, label: 'retardateur'}
+            sharpness: { command: '--sharpness', model: 'range', default: 0, min:-100, max: 100, label: 'netteté'}
+            contrast: { command: '--contrast', model: 'range', default: 0, min:-100, max: 100, label: 'contraste'}
+            brightness: { command: '--brightness', model: 'range', default: 50, min:0, max: 100, label: 'luminosité'}
+            saturation: { command: '--saturation', model: 'range', default: 0, min:-100, max: 100, label: 'saturation'}
+            quality: { command: '--quality', model: 'range', default: 100, min:0, max: 100, label: 'qualité'}
+            colfx: {command: '--colfx', model: 'range', default: {u: 128, v: 128}, min:0, max: 255, label: 'colorisation'}
+            iso: { command: '--ISO', model: 'list', default: 0, collection: [0, 100, 200, 320, 400, 500, 640, 800, 1600], label: 'ISO'}
+            dcr: { command: '--drc', model: 'list', default: 'off', collection: ['off', 'low', 'med','high'], label: 'compression'}
+            metering: { command: '--metering', model: 'list', default: 'matrix', collection: ['average', 'spot', 'backlit', 'matrix'], label: 'Mise au point'}
+            imxfx: { command: '--imxfx', model: 'list', default: 'none', collection: ['none','negative','solarise','sketch','denoise','emboss','oilpaint','hatch','gpen','pastel','watercolour','film','blur','saturation','colourswap','washedout','posterise','colourpoint','colourbalance','cartoon'], label: 'effet'}
+            awb: { command: '--awb', model: 'list', default: 'off', collection: ['off','auto','sun','cloud','shade','tungsten','fluorescent','incandescent','flash','horizon'], label: 'bal. des blancs'}
+            exposure: { command: '--exposure', model: 'list', default: 'off', collection: ['off','auto','night','nightpreview','backlight','spotlight','sports','snow','beach','verylong','fixedfps','antishake','fireworks'], label: 'exposition'}
 
 services:
     pi_camera:
         class: AppBundle\Service\PiCamera
-        arguments: ["%pi_camera%"]
+        arguments: ["%pi_camera%", '@event_dispatcher', '@form.factory']
         calls:
           - ['setLogger', ['@logger']]

@@ -8,10 +8,14 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Model\Widget;
+use AppBundle\Model\WidgetInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Process\Process;
 
-class PiCamera
+class PiCamera implements WidgetInterface
 {
     use LoggerAwareTrait;
 
@@ -26,13 +30,42 @@ class PiCamera
     protected $outputDir;
 
     /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
+
+    /**
+     * @var FormFactoryInterface
+     */
+    protected $formFactory;
+
+    /**
      * PiCamera constructor.
      * @param array $options
+     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(array $options)
+    public function __construct(array $options, EventDispatcherInterface $eventDispatcher, FormFactoryInterface $formFactory)
     {
         $this->options = $options['defaults'];
         $this->outputDir = $options['output_dir'];
+        $this->eventDispatcher = $eventDispatcher;
+        $this->formFactory = $formFactory;
+    }
+
+    /**
+     * @param $option
+     * @return Widget
+     */
+    public function getWidget($option)
+    {
+        if (!array_key_exists($option, $this->options)) {
+            throw new \LogicException('Missing option');
+        }
+
+        $widget = new Widget($this->eventDispatcher, $this->formFactory);
+        $widget->loadFromData($option, $this->options[$option]);
+
+        return $widget;
     }
 
     /**

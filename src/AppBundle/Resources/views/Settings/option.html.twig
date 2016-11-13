@@ -1,0 +1,16 @@
+{% extends '@App/layout.html.twig' %}
+{% block body %}
+    <body class="cl">
+    <div id="wrapper" class="sub-wrapper">
+        <h1>Paramètres - {{ option.label }}</h1>
+        <ul class="range-list">
+            <li>{{ option.min }}</li>
+            <li id="range-current-value">{{ option.default }}</li>
+            <li>{{ option.max }}</li>
+        </ul>
+        <div>
+            {{ form|raw }}
+        </div>
+    </div>
+    </body>
+{% endblock %}

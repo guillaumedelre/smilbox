@@ -15,4 +15,8 @@ $( document ).ready(function() {
             console.log(data);
         })
     });
+
+    $('input[type=range]').change(function() {
+        $('#range-current-value').html($(this).val());
+    });
 });

@@ -23,7 +23,13 @@ class SettingController extends Controller
      */
     public function setAction(Request $request, $option = null)
     {
-        $view = null === $option ? 'settings' : $option;
-        return $this->render('AppBundle:Settings:' . $view . '.html.twig');
+        $widget = $this->get('pi_camera')->getWidget($option);
+        return $this->render(
+            'AppBundle:Settings:option.html.twig',
+            [
+                'form' => $widget->getForm(),
+                'option' => $widget->getOption(),
+            ]
+        );
     }
 }
