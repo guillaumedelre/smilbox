@@ -2,10 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Service\PiCamera;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
 
 class SettingController extends Controller
@@ -20,9 +19,22 @@ class SettingController extends Controller
 
     /**
      * @Route("/settings/{option}")
+     * @Method({"GET", "POST"})
      */
-    public function setAction($option = null)
+    public function setAction(Request $request, $option)
     {
+        if (Request::METHOD_POST === $request->getMethod()) {
+            if (count($request->request->all()) > 1) {
+                foreach ($request->request->all() as $key =>$value) {
+                    $this->get('pi_camera')->set($key, $value);
+                }
+            } else {
+                $values = array_values($request->request->all());
+                $this->get('pi_camera')->set(key($request->request->all()), reset($values));
+                $this->redirectToRoute('app_setting_set', ['option' => $option]);
+            }
+        }
+
         $widget = $this->get('pi_camera')->getWidget($option);
         return $this->render(
             'AppBundle:Settings:option.html.twig',

@@ -8,6 +8,8 @@
 
 namespace AppBundle\Model\Option;
 
+use Symfony\Component\HttpFoundation\Session\Session;
+
 abstract class AbstractOption
 {
     /**

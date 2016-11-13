@@ -23,6 +23,11 @@ class RangeOption extends AbstractOption
     protected $max = 0;
 
     /**
+     * @var int
+     */
+    protected $step;
+
+    /**
      * @return int
      */
     public function getMin()
@@ -59,6 +64,24 @@ class RangeOption extends AbstractOption
     }
 
     /**
+     * @return int
+     */
+    public function getStep()
+    {
+        return $this->step;
+    }
+
+    /**
+     * @param int $step
+     * @return RangeOption
+     */
+    public function setStep($step)
+    {
+        $this->step = $step;
+        return $this;
+    }
+
+    /**
      * @param $optName
      * @param $data
      * @return RangeOption
@@ -82,7 +105,7 @@ class RangeOption extends AbstractOption
      */
     public function getForm()
     {
-        $pattern = '<ul class="range-list"><li>%d</li><li data-range="range-%s" class="range-current-value">%d</li><li>%d</li></ul><input id="range-%s" type="range" value="%d" min="%d" max="%d">';
+        $pattern = '<ul class="range-list"><li>%d</li><li data-range="range-%s" class="range-current-value">%d</li><li>%d</li></ul><input id="range-%s" name="%s" type="range" value="%d" min="%d" max="%d" step="%d">';
 
         $return = sprintf(
             $pattern,
@@ -91,9 +114,11 @@ class RangeOption extends AbstractOption
             $this->getDefault(),
             $this->getMax(),
             $this->getName(),
+            $this->getName(),
             $this->getDefault(),
             $this->getMin(),
-            $this->getMax()
+            $this->getMax(),
+            $this->getStep()
         );
 
         return $return;

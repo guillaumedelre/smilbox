@@ -10,6 +10,7 @@ namespace AppBundle\Model\Option;
 
 use Doctrine\Common\Inflector\Inflector;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class ListOption extends AbstractOption
 {
@@ -71,9 +72,10 @@ class ListOption extends AbstractOption
             $items .= sprintf($itemPattern, $item, $this->getDefault() == $item ? 'selected="selected"' : '', ucfirst($item));
         }
 
-        $selectPattern = '<select>%s</select>';
+        $selectPattern = '<select name="%s">%s</select>';
         $return = sprintf(
             $selectPattern,
+            $this->getName(),
             $items
         );
 

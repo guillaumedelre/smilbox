@@ -11,7 +11,6 @@ namespace AppBundle\Model;
 use AppBundle\Model\Option\AbstractOption;
 use AppBundle\Model\Option\ListOption;
 use AppBundle\Model\Option\RangeOption;
-use Doctrine\Common\Util\Inflector;
 
 class Widget
 {
