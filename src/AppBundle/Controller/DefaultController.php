@@ -18,41 +18,9 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/selfie")
-     */
-    public function selfieAction()
-    {
-        /** @var PiCamera $camera */
-        $camera = $this->get('pi_camera');
-        $success = $camera->selfie();
-
-        return new JsonResponse(\json_encode(['success' => $success]));
-    }
-
-    /**
-     * @Route("/timelaps")
-     */
-    public function timelapsAction()
-    {
-        /** @var PiCamera $camera */
-        $camera = $this->get('pi_camera');
-        $success = $camera->timelaps();
-
-        return new JsonResponse(\json_encode(['success' => $success]));
-    }
-
-    /**
      * @Route("/help")
      */
     public function helpAction()
-    {
-        return new JsonResponse(\json_encode(['success' => true]));
-    }
-
-    /**
-     * @Route("/settings")
-     */
-    public function settingsAction()
     {
         return new JsonResponse(\json_encode(['success' => true]));
     }

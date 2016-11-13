@@ -22,7 +22,7 @@ a {
 }
 #wrapper{
     width: 728px;
-    margin: 60px auto;
+    margin: 20px auto;
     background: #fff;
     padding: 10px;
     height: 280px;
@@ -61,6 +61,9 @@ a {
 }
 .nav li.cl:hover{
     border-bottom:4px solid rgba(67, 138, 15, 1);
+}
+.nav li.bk:hover{
+    border-bottom:4px solid rgba(34,34,34, 1);
 }
 img.icon{
     background:rgba(255, 255, 255, 0.4);
@@ -106,3 +109,34 @@ img.icon{
 .cl{
     background:rgba(93, 181, 29, 0.8);
 }
+.bk{
+    background:rgba(34,34,34, 0.8);
+}
+
+.sub-wrapper{
+    height: 445px!important;
+}
+.sub-wrapper .nav{
+    overflow:hidden;
+    margin:0 auto;
+    width:750px;
+}
+.sub-wrapper .nav li{
+    width:104px!important;
+    height:120px!important;
+}
+.sub-wrapper .nav li:hover{
+    height:127px!important;
+}
+
+
+.sub-wrapper img.icon{
+    margin:20px auto;
+}
+.sub-wrapper .nav li span{
+    padding-top:5px;
+}
+.sub-wrapper .nav li:hover span{
+    padding-top:10px;
+}
+

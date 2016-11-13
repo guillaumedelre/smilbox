@@ -1,0 +1,23 @@
+{% extends '@App/layout.html.twig' %}
+{% block body %}
+<body class="hm">
+<div id="wrapper" class="sub-wrapper">
+    <h1>Selfie</h1>
+    <ul class="nav">
+        <li class="bk">
+            <a href="{{ url('app_default_index') }}">
+                <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/chevron-left-16.png"
+                     alt="">
+                <span>Retour</span>
+            </a>
+        </li>
+        <li class="hm">
+            <a href="javascript:void(0);" id="btn-selfie-capture">
+                <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/camera-24.png" alt="">
+                <span>Selfie</span>
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+{% endblock %}
