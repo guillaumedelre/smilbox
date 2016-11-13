@@ -8,6 +8,8 @@
 
 namespace AppBundle\Model\Option;
 
+use Doctrine\Common\Util\Inflector;
+
 class RangeOption extends AbstractOption
 {
     /**
@@ -56,6 +58,28 @@ class RangeOption extends AbstractOption
         return $this;
     }
 
+    /**
+     * @param $optName
+     * @param $data
+     * @return RangeOption
+     */
+    public static function hydrate($optName, $data)
+    {
+        $option = new self();
+        $option->setLabel($data['label']);
+        $option->setName($optName);
+
+        unset($data['composite']);
+        foreach ($data as $key => $value) {
+            $option->{'set' . ucfirst(Inflector::camelize($key))}($value);
+        }
+
+        return $option;
+    }
+
+    /**
+     * @return string
+     */
     public function getForm()
     {
         $pattern = '<ul class="range-list"><li>%d</li><li data-range="range-%s" class="range-current-value">%d</li><li>%d</li></ul><input id="range-%s" type="range" value="%d" min="%d" max="%d">';

@@ -125,5 +125,15 @@ abstract class AbstractOption
         return $this;
     }
 
+    /**
+     * @return string
+     */
     abstract public function getForm();
+
+    /**
+     * @param $optName
+     * @param $data
+     * @return RangeOption|ListOption
+     */
+    abstract static public function hydrate($optName, $data);
 }

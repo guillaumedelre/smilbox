@@ -9,6 +9,7 @@
 namespace AppBundle\Model;
 
 use AppBundle\Model\Option\AbstractOption;
+use AppBundle\Model\Option\ListOption;
 use AppBundle\Model\Option\RangeOption;
 use Doctrine\Common\Util\Inflector;
 
@@ -95,8 +96,17 @@ class Widget
         switch ($data['model']) {
             case 'range':
                 $optName = $name . (isset($data['composite']) ? '-' . $data['composite'] : '');
-                $option = new RangeOption();
-                $this->hydrate($option, $optName, $data);
+                $option = RangeOption::hydrate($optName, $data);
+
+                if ($this->isCompound()) {
+                    $this->options[$name][$data['composite']] = $option;
+                } else {
+                    $this->options[$name] = $option;
+                }
+                break;
+            case 'list':
+                $optName = $name;
+                $option = ListOption::hydrate($optName, $data);
 
                 if ($this->isCompound()) {
                     $this->options[$name][$data['composite']] = $option;
@@ -105,25 +115,8 @@ class Widget
                 }
                 break;
         }
-    }
 
-    /**
-     * @param AbstractOption|RangeOption $option
-     * @param string $name
-     * @param array $data
-     * @return RangeOption
-     */
-    private function hydrate(AbstractOption &$option, $name, array $data)
-    {
-        $this->setLabel($data['label']);
-        $option->setName($name);
-
-        unset($data['composite']);
-        foreach ($data as $key => $value) {
-            $option->{'set' . ucfirst(Inflector::camelize($key))}($value);
-        }
-
-        return $option;
+        $this->setLabel($option->getLabel());
     }
 
     /**
