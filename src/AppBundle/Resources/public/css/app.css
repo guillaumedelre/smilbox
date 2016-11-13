@@ -140,12 +140,14 @@ img.icon{
 .sub-wrapper .range-list{
     width:100%;
     height: 20px;
+    margin-bottom: 20px;
 }
 .sub-wrapper .range-list li{
     width:33%;
     display:inline-block;
     float:left;
     text-align: center;
+    font-size: 1.4em;
     color: rgba(93, 181, 29, 1);
     font-weight: bold;
 }
@@ -158,6 +160,9 @@ img.icon{
     text-align: right;
     color: grey;
     font-weight: lighter;
+}
+.sub-wrapper .button-options{
+    margin: 20px auto;
 }
 
 input[type=range] {

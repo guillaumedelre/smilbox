@@ -58,8 +58,14 @@ class RangeOption extends AbstractOption
 
     public function getForm()
     {
+        $pattern = '<ul class="range-list"><li>%d</li><li data-range="range-%s" class="range-current-value">%d</li><li>%d</li></ul><input id="range-%s" type="range" value="%d" min="%d" max="%d">';
+
         $return = sprintf(
-            '<form><input id="range-%s" type="range" value="%d" min="%d" max="%d"></form>',
+            $pattern,
+            $this->getMin(),
+            $this->getName(),
+            $this->getDefault(),
+            $this->getMax(),
             $this->getName(),
             $this->getDefault(),
             $this->getMin(),

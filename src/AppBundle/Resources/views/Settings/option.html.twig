@@ -2,15 +2,31 @@
 {% block body %}
     <body class="cl">
     <div id="wrapper" class="sub-wrapper">
-        <h1>Paramètres - {{ option.label }}</h1>
-        <ul class="range-list">
-            <li>{{ option.min }}</li>
-            <li id="range-current-value">{{ option.default }}</li>
-            <li>{{ option.max }}</li>
-        </ul>
+        <h1>Paramètres - {{ widget.label }}</h1>
         <div>
-            {{ form|raw }}
+            {{ widget.form|raw }}
         </div>
+        <ul class="nav button-options">
+            <li class="bk">
+                <a href="{{ url('app_setting_index') }}">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/chevron-left-16.png"
+                         alt="">
+                    <span>Retour</span>
+                </a>
+            </li>
+            <li class="cl">
+                <a href="javascript:void(0);" id="btn-submit">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/tick-24.png" alt="">
+                    <span>Enregistrer</span>
+                </a>
+            </li>
+            <li class="fb">
+                <a href="javascript:void(0);" id="btn-reset">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/delete-24.png" alt="">
+                    <span>Annuler</span>
+                </a>
+            </li>
+        </ul>
     </div>
     </body>
 {% endblock %}

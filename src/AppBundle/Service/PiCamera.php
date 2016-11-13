@@ -30,26 +30,13 @@ class PiCamera implements WidgetInterface
     protected $outputDir;
 
     /**
-     * @var EventDispatcherInterface
-     */
-    protected $eventDispatcher;
-
-    /**
-     * @var FormFactoryInterface
-     */
-    protected $formFactory;
-
-    /**
      * PiCamera constructor.
      * @param array $options
-     * @param EventDispatcherInterface $eventDispatcher
      */
-    public function __construct(array $options, EventDispatcherInterface $eventDispatcher, FormFactoryInterface $formFactory)
+    public function __construct(array $options)
     {
         $this->options = $options['defaults'];
         $this->outputDir = $options['output_dir'];
-        $this->eventDispatcher = $eventDispatcher;
-        $this->formFactory = $formFactory;
     }
 
     /**
@@ -62,7 +49,7 @@ class PiCamera implements WidgetInterface
             throw new \LogicException('Missing option');
         }
 
-        $widget = new Widget($this->eventDispatcher, $this->formFactory);
+        $widget = new Widget();
         $widget->loadFromData($option, $this->options[$option]);
 
         return $widget;
