@@ -10,9 +10,9 @@ parameters:
             brightness: { command: '--brightness', model: 'range', default: 50, min:0, max: 100, step: 10, compute: '*1', label: 'luminosité'}
             saturation: { command: '--saturation', model: 'range', default: 0, min:-100, max: 100, step: 10, compute: '*1', label: 'saturation'}
             quality: { command: '--quality', model: 'range', default: 100, min:0, max: 100, compute: '*1', label: 'qualité'}
-            colfx:
-              - {composite: 'u', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, compute: '*1', label: 'colorisation'}
-              - {composite: 'v', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, compute: '*1', label: 'colorisation'}
+#            colfx:
+#              - {composite: 'u', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, compute: '*1', label: 'colorisation'}
+#              - {composite: 'v', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, compute: '*1', label: 'colorisation'}
             iso: { command: '--ISO', model: 'list', default: 1600, collection: [0, 100, 200, 320, 400, 500, 640, 800, 1600], label: 'iso'}
             dcr: { command: '--drc', model: 'list', default: 'off', collection: ['off', 'low', 'med','high'], label: 'compression'}
             metering: { command: '--metering', model: 'list', default: 'matrix', collection: ['average', 'spot', 'backlit', 'matrix'], label: 'mise au point'}
