@@ -11,6 +11,7 @@ namespace AppBundle\Service;
 use AppBundle\Model\Widget;
 use AppBundle\Model\WidgetInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
 
@@ -71,19 +72,21 @@ class PiCamera implements WidgetInterface
     /**
      * @param $key
      * @param $value
+     * @param null $compute
      */
-    public function set($key, $value)
+    public function set($key, $value, $compute = null)
     {
+        $language = new ExpressionLanguage();
         if (in_array($key, ['colfx-u', 'colfx-v'])) {
             if ('colfx-u' === $key) {
-                $this->options['colfx'][0]['default'] = $value;
+                $this->options['colfx'][0]['default'] = $language->evaluate($value . $compute);
             }
             if ('colfx-v' === $key) {
-                $this->options['colfx'][1]['default'] = $value;
+                $this->options['colfx'][1]['default'] = $language->evaluate($value . $compute);
             }
         } else {
             if (array_key_exists($key, $this->options)) {
-                $this->options[$key]['default'] = $value;
+                $this->options[$key]['default'] = $language->evaluate($value . $compute);
             }
         }
 

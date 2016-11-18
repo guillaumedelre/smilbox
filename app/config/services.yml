@@ -4,15 +4,15 @@ parameters:
     pi_camera:
         output_dir: '/home/pi/smilebox/web/photos'
         defaults:
-            timeout: { command: '--timeout', model: 'range', default: 5000, min:1000, max: 30000, step: 1000, label: 'retardateur'}
-            sharpness: { command: '--sharpness', model: 'range', default: 0, min:-100, max: 100, step: 10, label: 'netteté'}
-            contrast: { command: '--contrast', model: 'range', default: 0, min:-100, max: 100, step: 10, label: 'contraste'}
-            brightness: { command: '--brightness', model: 'range', default: 50, min:0, max: 100, step: 10, label: 'luminosité'}
-            saturation: { command: '--saturation', model: 'range', default: 0, min:-100, max: 100, step: 10, label: 'saturation'}
-            quality: { command: '--quality', model: 'range', default: 100, min:0, max: 100, label: 'qualité'}
+            timeout: { command: '--timeout', model: 'range', default: 5000, min:1000, max: 30000, step: 1, compute: '*1000', label: 'retardateur'}
+            sharpness: { command: '--sharpness', model: 'range', default: 0, min:-100, max: 100, step: 10, compute: '*1', label: 'netteté'}
+            contrast: { command: '--contrast', model: 'range', default: 0, min:-100, max: 100, step: 10, compute: '*1', label: 'contraste'}
+            brightness: { command: '--brightness', model: 'range', default: 50, min:0, max: 100, step: 10, compute: '*1', label: 'luminosité'}
+            saturation: { command: '--saturation', model: 'range', default: 0, min:-100, max: 100, step: 10, compute: '*1', label: 'saturation'}
+            quality: { command: '--quality', model: 'range', default: 100, min:0, max: 100, compute: '*1', label: 'qualité'}
             colfx:
-              - {composite: 'u', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, label: 'colorisation'}
-              - {composite: 'v', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, label: 'colorisation'}
+              - {composite: 'u', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, compute: '*1', label: 'colorisation'}
+              - {composite: 'v', command: '--colfx', model: 'range', default: 128, min:0, max: 255, step: 1, compute: '*1', label: 'colorisation'}
             iso: { command: '--ISO', model: 'list', default: 0, collection: [0, 100, 200, 320, 400, 500, 640, 800, 1600], label: 'iso'}
             dcr: { command: '--drc', model: 'list', default: 'off', collection: ['off', 'low', 'med','high'], label: 'compression'}
             metering: { command: '--metering', model: 'list', default: 'matrix', collection: ['average', 'spot', 'backlit', 'matrix'], label: 'mise au point'}
@@ -22,7 +22,11 @@ parameters:
 
 services:
     pi_camera:
-        class: AppBundle\Service\PiCamera
+        class: 'AppBundle\Service\PiCamera'
         arguments: ["%pi_camera%", '@session']
         calls:
           - ['setLogger', ['@logger']]
+    cache_listener:
+        class: 'AppBundle\Event\Listener\CacheListener'
+        tags:
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }

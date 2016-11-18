@@ -9,6 +9,7 @@
 namespace AppBundle\Model\Option;
 
 use Doctrine\Common\Util\Inflector;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class RangeOption extends AbstractOption
 {
@@ -26,6 +27,29 @@ class RangeOption extends AbstractOption
      * @var int
      */
     protected $step;
+
+    /**
+     * @var string
+     */
+    protected $compute;
+
+    /**
+     * @return string
+     */
+    public function getCompute()
+    {
+        return $this->compute;
+    }
+
+    /**
+     * @param string $compute
+     * @return RangeOption
+     */
+    public function setCompute($compute)
+    {
+        $this->compute = $compute;
+        return $this;
+    }
 
     /**
      * @return int
@@ -105,19 +129,28 @@ class RangeOption extends AbstractOption
      */
     public function getForm()
     {
-        $pattern = '<ul class="range-list"><li>%d</li><li data-range="range-%s" class="range-current-value">%d</li><li>%d</li></ul><input id="range-%s" name="%s" type="range" value="%d" min="%d" max="%d" step="%d">';
+        $pattern = '
+        <ul class="range-list">
+            <li>%d</li>
+            <li data-range="range-%s" class="range-current-value">%d</li>
+            <li>%d</li>
+        </ul>
+        <input id="range-%s" name="%s" type="range" value="%d" min="%d" max="%d" step="%d">
+        <input name="compute" type="hidden" value="' . $this->getCompute() . '">
+        ';
 
+        $language = new ExpressionLanguage();
         $return = sprintf(
             $pattern,
-            $this->getMin(),
+            $language->evaluate($this->getMin() . str_replace('*', '/', $this->getCompute())),
             $this->getName(),
-            $this->getDefault(),
-            $this->getMax(),
+            $language->evaluate($this->getDefault() . str_replace('*', '/', $this->getCompute())),
+            $language->evaluate($this->getMax() . str_replace('*', '/', $this->getCompute())),
             $this->getName(),
             $this->getName(),
-            $this->getDefault(),
-            $this->getMin(),
-            $this->getMax(),
+            $language->evaluate($this->getDefault() . str_replace('*', '/', $this->getCompute())),
+            $language->evaluate($this->getMin() . str_replace('*', '/', $this->getCompute())),
+            $language->evaluate($this->getMax() . str_replace('*', '/', $this->getCompute())),
             $this->getStep()
         );
 

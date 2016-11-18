@@ -25,8 +25,11 @@ class SettingController extends Controller
     {
         if (Request::METHOD_POST === $request->getMethod()) {
             if (count($request->request->all()) > 1) {
-                foreach ($request->request->all() as $key =>$value) {
-                    $this->get('pi_camera')->set($key, $value);
+                foreach ($request->request->all() as $key => $value) {
+                    if ('compute' === $key) {
+                        continue;
+                    }
+                    $this->get('pi_camera')->set($key, $value, $request->request->get('compute', null));
                 }
             } else {
                 $values = array_values($request->request->all());
