@@ -19,13 +19,13 @@ class SelfieController extends Controller
     }
 
     /**
-     * @Route("/selfie/capture")
+     * @Route("/selfie/capture/{filter}")
      */
-    public function captureAction(Request $request)
+    public function captureAction(Request $request, $filter)
     {
         /** @var PiCamera $camera */
         $camera = $this->get('pi_camera');
-        $success = $camera->selfie();
+        $success = $camera->selfie($filter);
 
         return new JsonResponse(\json_encode(['success' => $success]));
     }

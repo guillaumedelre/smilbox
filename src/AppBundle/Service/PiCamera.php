@@ -8,6 +8,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Model\Filter\WarholFilter;
 use AppBundle\Model\Widget;
 use AppBundle\Model\WidgetInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -94,14 +95,16 @@ class PiCamera implements WidgetInterface
     }
 
     /**
+     * @param null $filter
      * @return bool
      */
-    public function selfie()
+    public function selfie($filter = null)
     {
         $now = new \DateTimeImmutable();
+        $filename = sprintf('%s/pic-%d.jpg', $this->outputDir, $now->getTimestamp());
 
         $options = [];
-        $options[] = sprintf('--output %s/pic-%d.jpg', $this->outputDir, $now->getTimestamp()); // filename
+        $options[] = sprintf('--output %s', $filename); // filename
         foreach ($this->options as $optionData) {
             $compound = false;
 
@@ -122,7 +125,13 @@ class PiCamera implements WidgetInterface
 
         $command = sprintf('raspistill %s', implode(' ', $options));
 
-        return $this->process($command);
+        $return = $this->process($command);
+
+        if ($return) {
+            $this->applyFilter($filter, $filename);
+        }
+
+        return $return;
     }
 
     /**
@@ -160,5 +169,17 @@ class PiCamera implements WidgetInterface
         }
 
         return $return;
+    }
+
+    /**
+     * @param $filter
+     * @param $filename
+     */
+    private function applyFilter($filter, $filename)
+    {
+        if (WarholFilter::NAME === $filter) {
+            dump("test");
+            WarholFilter::apply($filename);
+        }
     }
 }
