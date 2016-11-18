@@ -127,9 +127,9 @@ class PiCamera implements WidgetInterface
 
         $return = $this->process($command);
 
-        if ($return) {
+//        if ($return) {
             $this->applyFilter($filter, $filename);
-        }
+//        }
 
         return $return;
     }
@@ -177,9 +177,7 @@ class PiCamera implements WidgetInterface
      */
     private function applyFilter($filter, $filename)
     {
-        dump("applyFilter");
-        if (WarholFilter::NAME === $filter) {
-            dump("WarholFilter");
+        if (WarholFilter::NAME === strtoupper($filter)) {
             WarholFilter::apply($filename);
         }
     }
