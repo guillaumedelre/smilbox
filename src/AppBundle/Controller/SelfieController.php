@@ -25,7 +25,7 @@ class SelfieController extends Controller
     {
         /** @var PiCamera $camera */
         $camera = $this->get('pi_camera');
-        $success = $camera->selfie($filter);
+        $success = $camera->selfie('default' == $filter ? null : $filter);
 
         return new JsonResponse(\json_encode(['success' => $success]));
     }
