@@ -67,9 +67,9 @@ class ListOption extends AbstractOption
     public function getForm()
     {
         $items = '';
-        $itemPattern = '<option value="%s" %s>%s</option>';
+        $itemPattern = '<option value="%s"%s>%s</option>';
         foreach ($this->getCollection()->get($this->getName()) as $item) {
-            $items .= sprintf($itemPattern, $item, $this->getDefault() == $item ? 'selected="selected"' : '', ucfirst($item));
+            $items .= sprintf($itemPattern, $item, $this->getDefault() == $item ? ' selected="selected"' : '', ucfirst($item));
         }
 
         $selectPattern = '<select name="%s">%s</select>';

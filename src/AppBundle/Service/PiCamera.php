@@ -73,7 +73,7 @@ class PiCamera implements WidgetInterface
     /**
      * @param $key
      * @param $value
-     * @param null $compute
+     * @param string|null $compute
      */
     public function set($key, $value, $compute = null)
     {
@@ -87,7 +87,7 @@ class PiCamera implements WidgetInterface
             }
         } else {
             if (array_key_exists($key, $this->options)) {
-                $this->options[$key]['default'] = $language->evaluate($value . $compute);
+                $this->options[$key]['default'] = null === $compute ? $value : $language->evaluate($value . $compute);
             }
         }
 
@@ -124,6 +124,8 @@ class PiCamera implements WidgetInterface
         $options[] = '-v'; // verbose
 
         $command = sprintf('raspistill %s', implode(' ', $options));
+
+        dump($command);
 
         $return = $this->process($command);
 

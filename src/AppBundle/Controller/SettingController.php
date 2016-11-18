@@ -24,12 +24,14 @@ class SettingController extends Controller
     public function setAction(Request $request, $option)
     {
         if (Request::METHOD_POST === $request->getMethod()) {
+            $compute = $request->request->get('compute', null);
+            $request->request->remove('compute');
             if (count($request->request->all()) > 1) {
                 foreach ($request->request->all() as $key => $value) {
                     if ('compute' === $key) {
                         continue;
                     }
-                    $this->get('pi_camera')->set($key, $value, $request->request->get('compute', null));
+                    $this->get('pi_camera')->set($key, $value, $compute);
                 }
             } else {
                 $values = array_values($request->request->all());
