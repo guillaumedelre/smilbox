@@ -119,7 +119,8 @@ class PiCamera implements WidgetInterface
 
         $options[] = '--encoding jpg'; // jpeg encoding
         $options[] = '--vstab'; // stabilization
-        $options[] = '--preview 0,0,1296,976'; // preview
+//        $options[] = '--preview 0,0,1296,976'; // preview
+        $options[] = '--preview 0,0,800,480'; // preview
         $options[] = sprintf('--exif date="%s"', $now->format('Y-m-d H:i:s')); // put the date in exif
         $options[] = '-v'; // verbose
 
