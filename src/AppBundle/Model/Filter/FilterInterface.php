@@ -13,6 +13,7 @@ interface FilterInterface
 {
     /**
      * @param string $filename
+     * @return string
      */
     public static function apply($filename);
 }

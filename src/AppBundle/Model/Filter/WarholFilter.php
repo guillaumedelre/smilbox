@@ -21,10 +21,11 @@ class WarholFilter implements FilterInterface
 
     /**
      * @param string $filename
+     * @return string
      */
     public static function apply($filename)
     {
-        $images= [];
+        $images = [];
 
         $ratio = .25;
 
@@ -35,19 +36,14 @@ class WarholFilter implements FilterInterface
         $newHeight = $height * $ratio;
 
         // Redimensionnement
-        $images[] = imagecreate($newWidth, $newHeight); // LeftTop
-        $images[] = imagecreate($newWidth, $newHeight); // RightTop
-        $images[] = imagecreate($newWidth, $newHeight); // LeftBottom
-        $images[] = imagecreate($newWidth, $newHeight); // RightBottom
-//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftTop
-//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightTop
-//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftBottom
-//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightBottom
+        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftTop
+        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightTop
+        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftBottom
+        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightBottom
 
         // Chargement image originale
         $image = imagecreatefromjpeg($filename);
-        $final = imagecreate($width, $height); // Final image
-//        $final = imagecreatetruecolor($width, $height); // Final image
+        $final = imagecreatetruecolor($width, $height); // Final image
 
         // Application du filtre sur chaque partie de la future image
         foreach (self::EFFECT_PARAMS as $i => $colorizeSet) {
@@ -74,7 +70,7 @@ class WarholFilter implements FilterInterface
         imagecopyresampled($final, $images[2],
             0, $height / 2,
             0, 0,
-            $width / 2 , $height,
+            $width / 2, $height,
             $newWidth, $height / 2
         );
 
@@ -86,7 +82,8 @@ class WarholFilter implements FilterInterface
         );
 
         // Enregistre dans le fichier
-        imagejpeg($final, "$filename-warhol.jpg", 100);
+        $warholFilename = str_replace('.jpg', '', $filename) . "-warhol.jpg";
+        imagejpeg($final, $warholFilename, 100);
 
         // Supression des ressources
         imagedestroy($image);
@@ -94,5 +91,7 @@ class WarholFilter implements FilterInterface
         foreach ($images as &$_image) {
             imagedestroy($_image);
         }
+
+        return $warholFilename;
     }
 }

@@ -31,6 +31,11 @@ class PiCamera implements WidgetInterface
     protected $options;
 
     /**
+     * @var array
+     */
+    protected $rpi;
+
+    /**
      * @var string
      */
     protected $outputDir;
@@ -40,7 +45,7 @@ class PiCamera implements WidgetInterface
      * @param array $options
      * @param Session $session
      */
-    public function __construct(array $options, Session $session)
+    public function __construct(array $options, Session $session, $rpi)
     {
         if ($session->has('pi_camera') && !empty($session->get('pi_camera'))) {
             $this->options = $session->get('pi_camera');
@@ -48,6 +53,8 @@ class PiCamera implements WidgetInterface
             $this->options = $options['defaults'];
             $session->set('pi_camera', $this->options);
         }
+
+        $this->rpi = $rpi;
 
         $this->session = $session;
 
@@ -119,8 +126,7 @@ class PiCamera implements WidgetInterface
 
         $options[] = '--encoding jpg'; // jpeg encoding
         $options[] = '--vstab'; // stabilization
-//        $options[] = '--preview 0,0,1296,976'; // preview
-        $options[] = '--preview 0,0,800,480'; // preview
+        $options[] = sprintf('--preview 0,0,%d,%d', $this->rpi['width'], $this->rpi['height']); // preview
         $options[] = sprintf('--exif date="%s"', $now->format('Y-m-d H:i:s')); // put the date in exif
         $options[] = '-v'; // verbose
 
@@ -129,7 +135,7 @@ class PiCamera implements WidgetInterface
         $return = $this->process($command);
 
         if ($return) {
-            $this->applyFilter($filter, $filename);
+            $filename = $this->applyFilter($filter, $filename);
         }
 
         return $return ? $filename : false;
