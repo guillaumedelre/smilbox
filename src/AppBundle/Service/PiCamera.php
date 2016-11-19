@@ -8,6 +8,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Model\Filter\SepiaFilter;
 use AppBundle\Model\Filter\WarholFilter;
 use AppBundle\Model\Widget;
 use AppBundle\Model\WidgetInterface;
@@ -181,11 +182,18 @@ class PiCamera implements WidgetInterface
     /**
      * @param $filter
      * @param $filename
+     * @return string|void
      */
     private function applyFilter($filter, $filename)
     {
+        $return = $filename;
         if (WarholFilter::NAME === strtoupper($filter)) {
-            WarholFilter::apply($filename);
+            $return = WarholFilter::apply($filename);
         }
+        if (SepiaFilter::NAME === strtoupper($filter)) {
+            $return = SepiaFilter::apply($filename);
+        }
+
+        return $return;
     }
 }

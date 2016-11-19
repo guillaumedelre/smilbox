@@ -8,11 +8,12 @@
 
 namespace AppBundle\Model\Filter;
 
-
 use Symfony\Component\Process\Process;
 
 class SepiaFilter implements FilterInterface
 {
+    const NAME = 'WARHOL';
+
     public static function apply($filename)
     {
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
