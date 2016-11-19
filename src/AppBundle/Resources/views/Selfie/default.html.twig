@@ -1,6 +1,6 @@
 {% extends '@App/layout.html.twig' %}
 {% block body %}
-<body class="hm">
+<body class="hm selfie">
 <div id="wrapper" class="sub-wrapper">
     <h1>Selfie</h1>
     <ul class="nav">
@@ -24,6 +24,8 @@
             </a>
         </li>
     </ul>
+    {% include "@App/common/gallery.html.twig" %}
 </div>
+
 </body>
 {% endblock %}

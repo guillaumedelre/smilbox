@@ -27,6 +27,13 @@ class SelfieController extends Controller
         $camera = $this->get('pi_camera');
         $success = $camera->selfie('default' == $filter ? null : $filter);
 
-        return new JsonResponse(\json_encode(['success' => $success]));
+        if (false !== $success) {
+            list($width, $height) = getimagesize($success);
+            $search = substr($success, 0, strpos($success, '/photos'));
+            $imageUrl = str_replace($search, '', $success);
+
+            return new JsonResponse(['error' => false, 'filename' => $imageUrl, 'w' => $width, 'h' => $height ]);
+        }
+        return new JsonResponse(['error' => true]);
     }
 }
