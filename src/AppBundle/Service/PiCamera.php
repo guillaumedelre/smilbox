@@ -101,8 +101,7 @@ class PiCamera implements WidgetInterface
     public function selfie($filter = null)
     {
         $now = new \DateTimeImmutable();
-//        $filename = sprintf('%s/pic-%d.jpg', $this->outputDir, $now->getTimestamp());
-        $filename = sprintf('%s/%s.jpg', $this->outputDir, 'platon-photographer-putin-man-of-the-year-portrait'); // filename
+        $filename = sprintf('%s/pic-%d.jpg', $this->outputDir, $now->getTimestamp());
 
         $options = [];
         $options[] = sprintf('--output %s', $filename); // filename
