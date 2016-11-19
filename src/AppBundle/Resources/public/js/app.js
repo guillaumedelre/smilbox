@@ -24,6 +24,18 @@ $(document).ready(function () {
         })
     });
 
+    $('#btn-selfie-sepia').click(function () {
+        jQuery.ajax({
+            url: "http://127.0.0.1:8000/selfie/capture/sepia",
+            context: document.body
+        }).done(function (data) {
+            if (false == data.error) {
+                openPhotoSwipe(data.filename, data.w, data.h);
+            }
+            console.log(data);
+        })
+    });
+
     $('#btn-timelaps-capture').click(function () {
         jQuery.ajax({
             url: "http://127.0.0.1:8000/timelaps/capture",
