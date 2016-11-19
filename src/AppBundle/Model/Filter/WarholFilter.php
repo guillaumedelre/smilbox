@@ -35,14 +35,19 @@ class WarholFilter implements FilterInterface
         $newHeight = $height * $ratio;
 
         // Redimensionnement
-        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftTop
-        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightTop
-        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftBottom
-        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightBottom
+        $images[] = imagecreate($newWidth, $newHeight); // LeftTop
+        $images[] = imagecreate($newWidth, $newHeight); // RightTop
+        $images[] = imagecreate($newWidth, $newHeight); // LeftBottom
+        $images[] = imagecreate($newWidth, $newHeight); // RightBottom
+//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftTop
+//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightTop
+//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftBottom
+//        $images[] = imagecreatetruecolor($newWidth, $newHeight); // RightBottom
 
         // Chargement image originale
         $image = imagecreatefromjpeg($filename);
-        $final = imagecreatetruecolor($width, $height); // Final image
+        $final = imagecreate($width, $height); // Final image
+//        $final = imagecreatetruecolor($width, $height); // Final image
 
         // Application du filtre sur chaque partie de la future image
         foreach (self::EFFECT_PARAMS as $i => $colorizeSet) {
