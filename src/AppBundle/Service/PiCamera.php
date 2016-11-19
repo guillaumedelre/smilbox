@@ -110,6 +110,7 @@ class PiCamera implements WidgetInterface
     {
         $now = new \DateTimeImmutable();
         $filename = sprintf('%s/pic-%d.jpg', $this->outputDir, $now->getTimestamp());
+//        $filename = sprintf('%s/%s.jpg', $this->outputDir, 'platon-photographer-putin-man-of-the-year-portrait'); // filename
 
         $options = [];
         $options[] = sprintf('--output %s', $filename); // filename
@@ -139,6 +140,7 @@ class PiCamera implements WidgetInterface
             $filename = $this->applyFilter($filter, $filename);
         }
 
+//        return $filename;
         return $return ? $filename : false;
     }
 

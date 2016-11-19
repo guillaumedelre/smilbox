@@ -3,7 +3,7 @@
 parameters:
     rpi: { width: 800, height: 480 }
     pi_camera:
-        output_dir: '/home/pi/smilebox/web/photos'
+        output_dir: '%output_dir%'
         defaults:
             timeout: { command: '--timeout', model: 'range', default: 5000, min:1000, max: 30000, step: 1, compute: '*1000', label: 'retardateur'}
             sharpness: { command: '--sharpness', model: 'range', default: 0, min:-100, max: 100, step: 10, compute: '*1', label: 'netteté'}
