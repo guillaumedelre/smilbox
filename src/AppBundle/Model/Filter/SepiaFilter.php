@@ -21,7 +21,7 @@ class SepiaFilter implements FilterInterface
     public static function apply($filename)
     {
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
-        $command = sprintf('convert -sepia-tone %s %s %s', '75%', $filename, $sepiaFilename);
+        $command = sprintf('convert -sepia-tone %s %s %s', '100%', $filename, $sepiaFilename);
         $process = new Process($command);
         $process->run();
 
