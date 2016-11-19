@@ -15,7 +15,7 @@ class SelfieController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Selfie:default.html.twig');
+        return $this->render('AppBundle:Selfie:default.html.twig', ['ext' => ['gd' => function_exists("gd_info")]]);
     }
 
     /**
@@ -32,7 +32,7 @@ class SelfieController extends Controller
             $search = substr($success, 0, strpos($success, '/photos'));
             $imageUrl = str_replace($search, '', $success);
 
-            return new JsonResponse(['error' => false, 'filename' => $imageUrl, 'w' => $width, 'h' => $height ]);
+            return new JsonResponse(['error' => false, 'filename' => $imageUrl, 'w' => $width, 'h' => $height]);
         }
         return new JsonResponse(['error' => true]);
     }
