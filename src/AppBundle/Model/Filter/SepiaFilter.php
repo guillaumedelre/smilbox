@@ -14,12 +14,18 @@ class SepiaFilter implements FilterInterface
 {
     const NAME = 'SEPIA';
 
+    /**
+     * @param string $filename
+     * @return string
+     */
     public static function apply($filename)
     {
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
         $command = sprintf('convert -sepia-tone 75% %s %s',$filename, $sepiaFilename);
         $process = new Process($command);
         $process->run();
+
+        return $sepiaFilename;
     }
 
 }
