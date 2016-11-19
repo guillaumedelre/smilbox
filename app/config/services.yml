@@ -2,7 +2,7 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
     pi_camera:
-        output_dir: '/home/pi/smilebox/web/photos'
+        output_dir: '/home/gdelre/dev/sources/local/smilebox/web/photos'
         defaults:
             timeout: { command: '--timeout', model: 'range', default: 5000, min:1000, max: 30000, step: 1, compute: '*1000', label: 'retardateur'}
             sharpness: { command: '--sharpness', model: 'range', default: 0, min:-100, max: 100, step: 10, compute: '*1', label: 'netteté'}

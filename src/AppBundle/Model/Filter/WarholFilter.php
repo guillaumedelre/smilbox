@@ -29,12 +29,10 @@ class WarholFilter implements FilterInterface
         $ratio = .25;
 
         list($width, $height) = getimagesize($filename);
-        dump($width, $height);
 
         // Calcul des nouvelles dimensions
         $newWidth = $width * $ratio;
         $newHeight = $height * $ratio;
-        dump($newWidth, $newHeight);
 
         // Redimensionnement
         $images[] = imagecreatetruecolor($newWidth, $newHeight); // LeftTop
@@ -53,18 +51,42 @@ class WarholFilter implements FilterInterface
         }
 
         // Calcul de l'effet sur l'image finale
-        imagecopyresampled("$final-0.jpg", $images[0], 0, 0, 0, 0, $width / 2, $height / 2, $newWidth, $newHeight);
-        imagecopyresampled("$final-1.jpg", $images[1], $width / 2, 0, 0, 0, $width, $height / 2, $newWidth, $newHeight);
-        imagecopyresampled("$final-2.jpg", $images[2], 0, $height / 2, 0, 0, $width / 2 , $height, $newWidth, $newHeight);
-        imagecopyresampled("$final-3.jpg", $images[3], $width / 2, $height / 2, 0, 0, $width, $height, $newWidth, $newHeight);
+        imagecopyresampled($final, $images[0],
+            0, 0,
+            0, 0,
+            $width / 2, $height / 2,
+            $newWidth, $newHeight
+        );
+
+        imagecopyresampled(
+            $final, $images[1],
+            $width / 2, 0,
+            0, 0,
+            $width, $height / 2,
+            $width / 2, $newHeight
+        );
+
+        imagecopyresampled($final, $images[2],
+            0, $height / 2,
+            0, 0,
+            $width / 2 , $height,
+            $newWidth, $height / 2
+        );
+
+        imagecopyresampled($final, $images[3],
+            $width / 2, $height / 2,
+            0, 0,
+            $width, $height,
+            $width / 2, $height / 2
+        );
 
         // Enregistre dans le fichier
-        imagejpeg($final, $filename, 100);
+        imagejpeg($final, "$filename-warhol.jpg", 100);
 
         // Supression des ressources
         imagedestroy($image);
         imagedestroy($final);
-        foreach ($images as $_image) {
+        foreach ($images as &$_image) {
             imagedestroy($_image);
         }
     }
