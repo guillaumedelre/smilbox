@@ -12,7 +12,7 @@ use Symfony\Component\Process\Process;
 
 class SepiaFilter implements FilterInterface
 {
-    const NAME = 'WARHOL';
+    const NAME = 'SEPIA';
 
     public static function apply($filename)
     {
