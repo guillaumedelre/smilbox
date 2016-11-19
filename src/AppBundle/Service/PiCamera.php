@@ -136,11 +136,8 @@ class PiCamera implements WidgetInterface
 
         $return = $this->process($command);
 
-        if ($return) {
-            $filename = $this->applyFilter($filter, $filename);
-        }
+        $filename = $this->applyFilter($filter, $filename);
 
-//        return $filename;
         return $return ? $filename : false;
     }
 
