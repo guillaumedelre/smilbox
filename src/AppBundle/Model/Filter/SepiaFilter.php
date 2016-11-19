@@ -25,7 +25,11 @@ class SepiaFilter implements FilterInterface
         $process = new Process($command);
         $process->run();
 
-        return $sepiaFilename;
+        if ($process->isSuccessful()) {
+            return $sepiaFilename;
+        }
+
+        return $filename;
     }
 
 }
