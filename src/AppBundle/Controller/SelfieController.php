@@ -24,15 +24,15 @@ class SelfieController extends Controller
     {
         $items = [];
 
+        $data = $this->getData(false, $items);
+
         /** @var PiCamera $camera */
         $camera = $this->get('pi_camera');
 
         list($error, $filename) = $camera->selfie('default' == $filter ? null : $filter);
-        dump($error, $filename);
 
         if (!$error) {
             list($width, $height) = getimagesize($filename);
-            dump($width, $height);
             $search = substr($filename, 0, strpos($filename, '/photos'));
             $imageUrl = str_replace($search, '', $filename);
 
@@ -41,9 +41,10 @@ class SelfieController extends Controller
                 'w' => $width,
                 'h' => $height,
             ];
+            $data = $this->getData(false, $items);
         }
 
-        return $this->render('AppBundle:Selfie:default.html.twig', $this->getData($error, $items));
+        return $this->render('AppBundle:Selfie:default.html.twig', $data);
     }
 
     /**
