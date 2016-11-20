@@ -46,7 +46,7 @@ class SelfieController extends Controller
             ];
         }
 
-        new JsonResponse($this->getData($error, $items));
+        return new JsonResponse($this->getData($error, $items));
     }
 
     /**
