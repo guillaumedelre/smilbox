@@ -4,8 +4,6 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 class GalleryController extends Controller
 {
