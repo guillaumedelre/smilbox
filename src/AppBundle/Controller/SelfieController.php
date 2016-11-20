@@ -24,8 +24,6 @@ class SelfieController extends Controller
     {
         $items = [];
 
-        $data = $this->getData(false, $items);
-
         /** @var PiCamera $camera */
         $camera = $this->get('pi_camera');
 
@@ -41,10 +39,9 @@ class SelfieController extends Controller
                 'w' => $width,
                 'h' => $height,
             ];
-            $data = $this->getData(false, $items);
         }
 
-        return $this->render('AppBundle:Selfie:default.html.twig', $data);
+        return $this->render('AppBundle:Selfie:default.html.twig', $this->getData($error, $items));
     }
 
     /**
