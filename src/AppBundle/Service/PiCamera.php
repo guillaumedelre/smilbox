@@ -150,6 +150,8 @@ class PiCamera implements WidgetInterface
 
         $filename = $this->applyFilter($filter, $filename);
 
+        dump([$return, $filename]);
+
         return [(bool)$return, $filename];
     }
 
