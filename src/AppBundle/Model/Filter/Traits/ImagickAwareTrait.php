@@ -15,10 +15,6 @@ trait ImagickAwareTrait
      */
     public function isAware()
     {
-        try {
-            return (bool)\Imagick::getVersion();
-        } catch (\Exception $e) {
-            return false;
-        }
+        return extension_loaded('imagick');
     }
 }
