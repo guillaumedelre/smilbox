@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Service\PiCamera;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class SelfieController extends Controller
@@ -14,7 +15,11 @@ class SelfieController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Selfie:default.html.twig', $this->getData());
+        return $this->render('AppBundle:Selfie:default.html.twig', [
+            'ext' => [
+                'gd' => function_exists("gd_info"),
+            ]
+        ]);
     }
 
     /**
@@ -41,7 +46,7 @@ class SelfieController extends Controller
             ];
         }
 
-        return $this->render('AppBundle:Selfie:default.html.twig', $this->getData($error, $items));
+        new JsonResponse($this->getData($error, $items));
     }
 
     /**
@@ -52,9 +57,6 @@ class SelfieController extends Controller
     private function getData($error = false, $items = [])
     {
         return [
-            'ext' => [
-                'gd' => function_exists("gd_info"),
-            ],
             'error' => $error,
             'items' => $items,
         ];

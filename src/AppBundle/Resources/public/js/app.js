@@ -18,33 +18,11 @@ var openPhotoSwipe = function (items) {
 
 $(document).ready(function () {
 
-    $('#btn-selfie-capture').click(function () {
-        jQuery.ajax({
-            url: "http://127.0.0.1:8000/selfie/capture/default",
-            context: document.body
-        }).done(function (data) {
-            if (false == data.error) {
-                openPhotoSwipe(data.items);
-            }
-            console.log(data);
-        })
-    });
+    $('a.selfie').click(function () {
+        var filter = $(this).data('filter');
 
-    $('#btn-selfie-warhol').click(function () {
         jQuery.ajax({
-            url: "http://127.0.0.1:8000/selfie/capture/warhol",
-            context: document.body
-        }).done(function (data) {
-            if (false == data.error) {
-                openPhotoSwipe(data.items);
-            }
-            console.log(data);
-        })
-    });
-
-    $('#btn-selfie-sepia').click(function () {
-        jQuery.ajax({
-            url: "http://127.0.0.1:8000/selfie/capture/sepia",
+            url: "http://127.0.0.1:8000/selfie/capture/" + filter,
             context: document.body
         }).done(function (data) {
             if (false == data.error) {
