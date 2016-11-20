@@ -1,3 +1,21 @@
+var openPhotoSwipe = function (items) {
+    var pswpElement = document.querySelectorAll('.pswp')[0];
+
+    // define options (if needed)
+    var options = {
+        // history & focus options are disabled on CodePen
+        history: false,
+        focus: false,
+
+        showAnimationDuration: 0,
+        hideAnimationDuration: 0
+
+    };
+
+    var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+    gallery.init();
+};
+
 $(document).ready(function () {
 
     $('#btn-selfie-capture').click(function () {
@@ -6,7 +24,7 @@ $(document).ready(function () {
             context: document.body
         }).done(function (data) {
             if (false == data.error) {
-                openPhotoSwipe(data.filename, data.w, data.h);
+                openPhotoSwipe(data.items);
             }
             console.log(data);
         })
@@ -18,7 +36,7 @@ $(document).ready(function () {
             context: document.body
         }).done(function (data) {
             if (false == data.error) {
-                openPhotoSwipe(data.filename, data.w, data.h);
+                openPhotoSwipe(data.items);
             }
             console.log(data);
         })
@@ -30,7 +48,7 @@ $(document).ready(function () {
             context: document.body
         }).done(function (data) {
             if (false == data.error) {
-                openPhotoSwipe(data.filename, data.w, data.h);
+                openPhotoSwipe(data.items);
             }
             console.log(data);
         })
@@ -63,30 +81,4 @@ $(document).ready(function () {
         $('input[type=range]').trigger('change');
     });
 
-    var openPhotoSwipe = function (filename, w, h) {
-        var pswpElement = document.querySelectorAll('.pswp')[0];
-
-        // build items array
-        var items = [
-            {
-                src: filename,
-                w: w,
-                h: h
-            }
-        ];
-
-        // define options (if needed)
-        var options = {
-            // history & focus options are disabled on CodePen
-            history: false,
-            focus: false,
-
-            showAnimationDuration: 0,
-            hideAnimationDuration: 0
-
-        };
-
-        var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
-        gallery.init();
-    };
 });

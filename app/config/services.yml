@@ -22,6 +22,9 @@ parameters:
             exposure: { command: '--exposure', model: 'list', default: 'auto', collection: ['off','auto','night','nightpreview','backlight','spotlight','sports','snow','beach','verylong','fixedfps','antishake','fireworks'], label: 'exposition'}
 
 services:
+    gallery:
+        class: 'AppBundle\Service\Gallery'
+        arguments: ["%output_dir%"]
     pi_camera:
         class: 'AppBundle\Service\PiCamera'
         arguments: ["%pi_camera%", '@session', "%rpi%"]

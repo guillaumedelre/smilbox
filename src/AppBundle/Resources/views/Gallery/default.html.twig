@@ -1,0 +1,30 @@
+{% extends '@App/layout.html.twig' %}
+{% block body %}
+    <body class="gp">
+    <div id="wrapper" class="sub-wrapper">
+        <h1>Galerie</h1>
+        {% include "@App/common/gallery.html.twig" %}
+        <ul class="nav ">
+            <li class="bk">
+                <a href="{{ url('app_default_index') }}">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/chevron-left-16.png"
+                         alt="">
+                    <span>Retour</span>
+                </a>
+            </li>
+            {% for item in items %}
+            <li class="gallery" style="text-align: center;">
+                <a href="javascript:openGallery();">
+                    <img height="100%" src="{{ item.src }}">
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script>
+        var openGallery = function() {
+            openPhotoSwipe({{ items|json_encode|raw }});
+        }
+    </script>
+    </body>
+{% endblock %}
