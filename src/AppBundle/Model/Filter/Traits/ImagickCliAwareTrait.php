@@ -8,13 +8,13 @@
 
 namespace AppBundle\Model\Filter\Traits;
 
-trait ImagickAwareTrait
+trait ImagickCliAwareTrait
 {
     /**
      * @return bool
      */
     public function isAware()
     {
-        return extension_loaded('imagick');
+        return true;
     }
 }

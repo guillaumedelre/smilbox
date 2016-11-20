@@ -2,21 +2,20 @@
 /**
  * Created by PhpStorm.
  * User: gdelre
- * Date: 19/11/16
- * Time: 15:43
+ * Date: 20/11/16
+ * Time: 23:19
  */
 
 namespace AppBundle\Model\Filter;
 
-use AppBundle\Model\Filter\Traits\ImagickAwareTrait;
-use Symfony\Component\Debug\Exception\ClassNotFoundException;
+use AppBundle\Model\Filter\Traits\ImagickCliAwareTrait;
 use Symfony\Component\Process\Process;
 
-class SepiaFilter extends AbstractFilter
+class SepiaCliFilter
 {
     const NAME = 'SEPIA';
 
-    use ImagickAwareTrait;
+    use ImagickCliAwareTrait;
 
     /**
      * @param string $filename
@@ -27,9 +26,13 @@ class SepiaFilter extends AbstractFilter
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
 
         if ($this->isAware()) {
-            $image = new \Imagick($filename);
-            $image->sepiaToneImage(80);
-            $image->writeImage($sepiaFilename);
+            $command = sprintf('convert -sepia-tone %s %s %s', '80%', $filename, $sepiaFilename);
+            $process = new Process($command);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $sepiaFilename = $filename;
+            }
         }
 
         return $sepiaFilename;

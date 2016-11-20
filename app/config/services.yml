@@ -31,6 +31,9 @@ services:
     filter_sepia:
         parent: 'filter_base'
         class: 'AppBundle\Model\Filter\SepiaFilter'
+    filter_sepia_cli:
+        parent: 'filter_base'
+        class: 'AppBundle\Model\Filter\SepiaCliFilter'
     filter_warhol:
         parent: 'filter_base'
         class: 'AppBundle\Model\Filter\WarholFilter'
@@ -46,7 +49,7 @@ services:
           - "%pi_camera%"
           - '@session'
           - "%rpi%"
-          - ['@filter_sepia', '@filter_warhol']
+          - ['@filter_sepia', '@filter_warhol', '@filter_sepia_cli']
 
     cache_listener:
         class: 'AppBundle\Event\Listener\CacheListener'
