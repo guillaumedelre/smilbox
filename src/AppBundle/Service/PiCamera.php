@@ -146,13 +146,11 @@ class PiCamera implements WidgetInterface
 
         $command = sprintf('raspistill %s', implode(' ', $options));
 
-        $return = $this->process($command);
+        $error = $this->process($command);
 
         $filename = $this->applyFilter($filter, $filename);
 
-        dump([$return, $filename]);
-
-        return [(bool)$return, $filename];
+        return [$error, $filename];
     }
 
     /**
@@ -176,20 +174,20 @@ class PiCamera implements WidgetInterface
      */
     private function process($command)
     {
-        $return = true;
+        $error = false;
 
         $process = new Process($command);
         $this->logger->notice(sprintf('PiCamera running command: "%s"', $command));
         $process->run();
 
         if (!$process->isSuccessful()) {
-            $return = false;
+            $error = true;
             $this->logger->error(sprintf('PiCamera proccess error: "%s"', $process->getErrorOutput()));
         } else {
             $this->logger->info(sprintf('PiCamera command done: "%s"', $process->getOutput()));
         }
 
-        return $return;
+        return $error;
     }
 
     /**
