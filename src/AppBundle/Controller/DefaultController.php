@@ -13,7 +13,15 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('AppBundle:Default:default.html.twig');
+        return $this->redirectToRoute('app_selfie_index');
+    }
+
+    /**
+     * @Route("/admin")
+     */
+    public function adminAction()
+    {
+        return $this->render('AppBundle:Default:admin.html.twig');
     }
 
     /**

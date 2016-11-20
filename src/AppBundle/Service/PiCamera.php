@@ -8,6 +8,7 @@
 
 namespace AppBundle\Service;
 
+use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Filter\SepiaFilter;
 use AppBundle\Model\Filter\WarholFilter;
 use AppBundle\Model\Widget;
@@ -30,6 +31,11 @@ class PiCamera implements WidgetInterface
      * @var array
      */
     protected $options;
+
+    /**
+     * @var array|FilterInterface[]
+     */
+    protected $filters;
 
     /**
      * @var array
@@ -179,20 +185,31 @@ class PiCamera implements WidgetInterface
     }
 
     /**
-     * @param $filter
-     * @param $filename
+     * @param string $filtername
+     * @param string $filename
      * @return string|void
      */
-    private function applyFilter($filter, $filename)
+    private function applyFilter($filtername, $filename)
     {
         $return = $filename;
-        if (WarholFilter::NAME === strtoupper($filter)) {
-            $return = WarholFilter::apply($filename);
-        }
-        if (SepiaFilter::NAME === strtoupper($filter)) {
-            $return = SepiaFilter::apply($filename);
+
+        /** @var FilterInterface $filter */
+        foreach ($this->filters as $filter) {
+            if ($filter->runnable() && $filter->canSupport($filtername)) {
+                $return = $filter->apply($filename);
+            }
         }
 
         return $return;
+    }
+
+    /**
+     * @param array $filters
+     * @return PiCamera
+     */
+    public function setFilters(array $filters)
+    {
+        $this->filters = $filters;
+        return $this;
     }
 }

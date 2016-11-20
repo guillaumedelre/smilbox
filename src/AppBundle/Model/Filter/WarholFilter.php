@@ -8,7 +8,9 @@
 
 namespace AppBundle\Model\Filter;
 
-class WarholFilter implements FilterInterface
+use AppBundle\Model\Filter\Traits\GdAwareTrait;
+
+class WarholFilter implements FilterInterface, FilterAwareInterface
 {
     const NAME = 'WARHOL';
 
@@ -19,11 +21,13 @@ class WarholFilter implements FilterInterface
         [-50, 0, 100],
     ];
 
+    use GdAwareTrait;
+
     /**
      * @param string $filename
      * @return string
      */
-    public static function apply($filename)
+    public function apply($filename)
     {
         $images = [];
 
@@ -93,5 +97,22 @@ class WarholFilter implements FilterInterface
         }
 
         return $warholFilename;
+    }
+
+    /**
+     * @return bool
+     */
+    public function runnable()
+    {
+        return self::isAware();
+    }
+
+    /**
+     * @param string$filter
+     * @return bool
+     */
+    public function canSupport($filter)
+    {
+        return self::NAME === strtoupper($filter);
     }
 }

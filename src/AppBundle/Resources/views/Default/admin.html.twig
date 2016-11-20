@@ -1,0 +1,47 @@
+{% extends '@App/layout.html.twig' %}
+{% block body %}
+    <body>
+    <div id="wrapper">
+        <h1>smileBox ;)</h1>
+        <ul class="nav">
+            <li class="hm">
+                <a href="{{ url('app_selfie_index') }}">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/camera-24.png" alt="">
+                    <span>Selfie</span>
+                </a>
+            </li>
+            <li class="fb">
+                <a href="{{ url('app_timelaps_index') }}">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/video-24.png" alt="">
+                    <span>Timelaps</span>
+                </a>
+            </li>
+            <li class="gp">
+                <a href="{{ url('app_gallery_index') }}">
+                    <img class="icon"
+                         src="https://cdn3.iconfinder.com/data/icons/picons-social/57/40-google-plus-24.png" alt="">
+                    <span>Galerie</span>
+                </a>
+                {#<a href="https://photos.google.com/album/AF1QipO9g65wimlq3G7RZJpQ7WeHMryCo2nR3cbGMEHK" target="_blank">#}
+                    {#<img class="icon"#}
+                         {#src="https://cdn3.iconfinder.com/data/icons/picons-social/57/40-google-plus-24.png"#}
+                         {#alt="">#}
+                    {#<span>Galerie</span>#}
+                {#</a>#}
+            </li>
+            <li class="tw">
+                <a href="javascript:void(0);" id="btn-help">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/info-large-24.png" alt="">
+                    <span>Aide</span>
+                </a>
+            </li>
+            <li class="cl">
+                <a href="{{ url('app_setting_index') }}">
+                    <img class="icon" src="https://cdn0.iconfinder.com/data/icons/typicons-2/24/cog-24.png" alt="">
+                    <span>Paramètres</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    </body>
+{% endblock %}

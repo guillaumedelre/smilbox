@@ -8,28 +8,54 @@
 
 namespace AppBundle\Model\Filter;
 
+use AppBundle\Model\Filter\Traits\ImagickAwareTrait;
 use Symfony\Component\Process\Process;
 
-class SepiaFilter implements FilterInterface
+class SepiaFilter implements FilterInterface, FilterAwareInterface
 {
     const NAME = 'SEPIA';
+
+    use ImagickAwareTrait;
 
     /**
      * @param string $filename
      * @return string
      */
-    public static function apply($filename)
+    public function apply($filename)
     {
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
-        $command = sprintf('convert -sepia-tone %s %s %s', '100%', $filename, $sepiaFilename);
-        $process = new Process($command);
-        $process->run();
 
-        if (!$process->isSuccessful()) {
-            return $filename;
+        try {
+            $image = new \Imagick($filename);
+            $image->sepiaToneImage(100);
+            $image->writeImage($sepiaFilename);
+        } catch (\Exception $e) {
+            $command = sprintf('convert -sepia-tone %s %s %s', '100%', $filename, $sepiaFilename);
+            $process = new Process($command);
+            $process->run();
+
+            if (!$process->isSuccessful()) {
+                $sepiaFilename = $filename;
+            }
         }
 
         return $sepiaFilename;
     }
 
+    /**
+     * @return bool
+     */
+    public function runnable()
+    {
+        return ImagickAwareTrait::isAware();
+    }
+
+    /**
+     * @param string$filter
+     * @return bool
+     */
+    public function canSupport($filter)
+    {
+        return self::NAME === strtoupper($filter);
+    }
 }
