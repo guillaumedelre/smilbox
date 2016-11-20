@@ -28,7 +28,6 @@ $(document).ready(function () {
             if (false == data.error) {
                 openPhotoSwipe(data.items);
             }
-            console.log(data);
         })
     });
 
