@@ -26,16 +26,18 @@ class SepiaFilter extends AbstractFilter
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
 
         if ($this->isAware()) {
-            $image = new \Imagick($filename);
-            $image->sepiaToneImage(80);
-            $image->writeImage($sepiaFilename);
-        } else {
-            $command = sprintf('convert -sepia-tone %s %s %s', '80%', $filename, $sepiaFilename);
-            $process = new Process($command);
-            $process->run();
+            try {
+                $image = new \Imagick($filename);
+                $image->sepiaToneImage(80);
+                $image->writeImage($sepiaFilename);
+            } catch (\Exception $e) {
+                $command = sprintf('convert -sepia-tone %s %s %s', '80%', $filename, $sepiaFilename);
+                $process = new Process($command);
+                $process->run();
 
-            if (!$process->isSuccessful()) {
-                $sepiaFilename = $filename;
+                if (!$process->isSuccessful()) {
+                    $sepiaFilename = $filename;
+                }
             }
         }
 
