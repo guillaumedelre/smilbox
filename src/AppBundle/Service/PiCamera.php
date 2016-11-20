@@ -9,8 +9,6 @@
 namespace AppBundle\Service;
 
 use AppBundle\Model\Filter\FilterInterface;
-use AppBundle\Model\Filter\SepiaFilter;
-use AppBundle\Model\Filter\WarholFilter;
 use AppBundle\Model\Widget;
 use AppBundle\Model\WidgetInterface;
 use Psr\Log\LoggerAwareTrait;
@@ -204,10 +202,10 @@ class PiCamera implements WidgetInterface
     }
 
     /**
-     * @param array $filters
+     * @param array|FilterInterface[] $filters
      * @return PiCamera
      */
-    public function setFilters(array $filters)
+    public function setFilters($filters)
     {
         $this->filters = $filters;
         return $this;
