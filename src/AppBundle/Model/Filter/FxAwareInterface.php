@@ -8,10 +8,10 @@
 
 namespace AppBundle\Model\Filter;
 
-interface FilterAwareInterface
+interface FxAwareInterface
 {
     /**
      * @return bool
      */
-    public static function isAware();
+    public function isAware();
 }

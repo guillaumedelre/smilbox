@@ -13,7 +13,7 @@ trait ImagickAwareTrait
     /**
      * @return bool
      */
-    public static function isAware()
+    public function isAware()
     {
         try {
             return (bool)\Imagick::getVersion();

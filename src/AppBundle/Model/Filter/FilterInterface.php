@@ -18,11 +18,6 @@ interface FilterInterface
     public function apply($filename);
 
     /**
-     * @return bool
-     */
-    public function runnable();
-
-    /**
      * @param string$filter
      * @return bool
      */

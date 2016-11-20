@@ -10,7 +10,7 @@ namespace AppBundle\Model\Filter;
 
 use AppBundle\Model\Filter\Traits\GdAwareTrait;
 
-class WarholFilter implements FilterInterface, FilterAwareInterface
+class WarholFilter extends AbstractFilter
 {
     const NAME = 'WARHOL';
 
@@ -100,19 +100,10 @@ class WarholFilter implements FilterInterface, FilterAwareInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function runnable()
+    protected function getName()
     {
-        return self::isAware();
-    }
-
-    /**
-     * @param string$filter
-     * @return bool
-     */
-    public function canSupport($filter)
-    {
-        return self::NAME === strtoupper($filter);
+        return self::NAME;
     }
 }

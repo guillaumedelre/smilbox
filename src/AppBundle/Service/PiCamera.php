@@ -11,14 +11,15 @@ namespace AppBundle\Service;
 use AppBundle\Model\Filter\FilterInterface;
 use AppBundle\Model\Widget;
 use AppBundle\Model\WidgetInterface;
-use Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Process\Process;
 
 class PiCamera implements WidgetInterface
 {
-    use LoggerAwareTrait;
+    /** @var LoggerInterface */
+    protected $logger;
 
     /**
      * @var Session
@@ -31,7 +32,7 @@ class PiCamera implements WidgetInterface
     protected $options;
 
     /**
-     * @var array|FilterInterface[]
+     * @var FilterInterface[]
      */
     protected $filters;
 
@@ -47,11 +48,16 @@ class PiCamera implements WidgetInterface
 
     /**
      * PiCamera constructor.
+     * @param LoggerInterface $logger
      * @param array $options
      * @param Session $session
+     * @param array $rpi
+     * @param FilterInterface[] $filters
      */
-    public function __construct(array $options, Session $session, $rpi)
+    public function __construct(LoggerInterface $logger, array $options, Session $session, array $rpi, $filters)
     {
+        $this->logger = $logger;
+
         if ($session->has('pi_camera') && !empty($session->get('pi_camera'))) {
             $this->options = $session->get('pi_camera');
         } else {
@@ -64,6 +70,8 @@ class PiCamera implements WidgetInterface
         $this->session = $session;
 
         $this->outputDir = $options['output_dir'];
+
+        $this->filters = $filters;
     }
 
     /**
@@ -107,14 +115,14 @@ class PiCamera implements WidgetInterface
     }
 
     /**
-     * @param null $filter
-     * @return bool
+     * @param string|null $filter
+     * @return array
      */
     public function selfie($filter = null)
     {
         $now = new \DateTimeImmutable();
         $filename = sprintf('%s/pic-%d.jpg', $this->outputDir, $now->getTimestamp());
-//        $filename = sprintf('%s/%s.jpg', $this->outputDir, 'platon-photographer-putin-man-of-the-year-portrait'); // filename
+        $filename = sprintf('%s/%s.jpg', $this->outputDir, 'platon-photographer-putin-man-of-the-year-portrait'); // filename
 
         $options = [];
         $options[] = sprintf('--output %s', $filename); // filename
@@ -142,7 +150,7 @@ class PiCamera implements WidgetInterface
 
         $filename = $this->applyFilter($filter, $filename);
 
-        return $return ? $filename : false;
+        return [(bool)$return, $filename];
     }
 
     /**
@@ -191,23 +199,13 @@ class PiCamera implements WidgetInterface
     {
         $return = $filename;
 
-        /** @var FilterInterface $filter */
         foreach ($this->filters as $filter) {
-            if ($filter->runnable() && $filter->canSupport($filtername)) {
-                $return = $filter->apply($filename);
+            $this->logger->info($filter->canSupport($filtername));
+            if ($filter->canSupport($filtername)) {
+                return $filter->apply($filename);
             }
         }
 
         return $return;
-    }
-
-    /**
-     * @param array|FilterInterface[] $filters
-     * @return PiCamera
-     */
-    public function setFilters($filters)
-    {
-        $this->filters = $filters;
-        return $this;
     }
 }

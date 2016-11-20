@@ -13,7 +13,7 @@ trait GdAwareTrait
     /**
      * @return bool
      */
-    public static function isAware()
+    public function isAware()
     {
         return function_exists("gd_info");
     }

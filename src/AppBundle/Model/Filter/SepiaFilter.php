@@ -11,7 +11,7 @@ namespace AppBundle\Model\Filter;
 use AppBundle\Model\Filter\Traits\ImagickAwareTrait;
 use Symfony\Component\Process\Process;
 
-class SepiaFilter implements FilterInterface, FilterAwareInterface
+class SepiaFilter extends AbstractFilter
 {
     const NAME = 'SEPIA';
 
@@ -43,19 +43,10 @@ class SepiaFilter implements FilterInterface, FilterAwareInterface
     }
 
     /**
-     * @return bool
+     * @return string
      */
-    public function runnable()
+    protected function getName()
     {
-        return ImagickAwareTrait::isAware();
-    }
-
-    /**
-     * @param string$filter
-     * @return bool
-     */
-    public function canSupport($filter)
-    {
-        return self::NAME === strtoupper($filter);
+        return self::NAME;
     }
 }
