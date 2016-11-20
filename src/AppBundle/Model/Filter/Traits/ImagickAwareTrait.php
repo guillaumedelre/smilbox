@@ -15,6 +15,6 @@ trait ImagickAwareTrait
      */
     public function isAware()
     {
-        return extension_loaded('imagick');
+        return extension_loaded('imagick') | true;
     }
 }
