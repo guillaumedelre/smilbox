@@ -36,6 +36,15 @@ abstract class AbstractFilter implements FilterInterface, FxAwareInterface
 
         $supported = $this->isAware() && $this->getName() == strtoupper($filter);
 
+        dump([
+            $className,
+            $this->isAware(),
+            $this->getName(),
+            strtoupper($filter),
+            $this->getName() == strtoupper($filter),
+            $supported,
+        ]);
+
         if ($supported) {
             $this->logger->info(sprintf('%s supports %s', $className, $filter));
         } else {
