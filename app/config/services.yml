@@ -22,14 +22,26 @@ parameters:
             exposure: { command: '--exposure', model: 'list', default: 'auto', collection: ['off','auto','night','nightpreview','backlight','spotlight','sports','snow','beach','verylong','fixedfps','antishake','fireworks'], label: 'exposition'}
 
 services:
+    filter_sepia:
+        class: 'AppBundle\Model\Filter\SepiaFilter'
+        tags:
+          - { name: 'smilebox.filter'}
+    filter_warhol:
+        class: 'AppBundle\Model\Filter\WarholFilter'
+        tags:
+          - { name: 'smilebox.filter'}
+
     gallery:
         class: 'AppBundle\Service\Gallery'
         arguments: ["%output_dir%"]
+
     pi_camera:
         class: 'AppBundle\Service\PiCamera'
         arguments: ["%pi_camera%", '@session', "%rpi%"]
         calls:
           - ['setLogger', ['@logger']]
+          - ['setFilters', ['@filter_sepia', '@filter_warhol']]
+
     cache_listener:
         class: 'AppBundle\Event\Listener\CacheListener'
         tags:
