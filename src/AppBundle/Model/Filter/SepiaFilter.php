@@ -9,8 +9,6 @@
 namespace AppBundle\Model\Filter;
 
 use AppBundle\Model\Filter\Traits\ImagickAwareTrait;
-use Symfony\Component\Debug\Exception\ClassNotFoundException;
-use Symfony\Component\Process\Process;
 
 class SepiaFilter extends AbstractFilter
 {

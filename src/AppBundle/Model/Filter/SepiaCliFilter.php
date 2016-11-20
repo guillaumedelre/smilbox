@@ -11,7 +11,7 @@ namespace AppBundle\Model\Filter;
 use AppBundle\Model\Filter\Traits\ImagickCliAwareTrait;
 use Symfony\Component\Process\Process;
 
-class SepiaCliFilter
+class SepiaCliFilter extends AbstractFilter
 {
     const NAME = 'SEPIA';
 
