@@ -25,12 +25,12 @@ class SepiaFilter extends AbstractFilter
     {
         $sepiaFilename = str_replace('.jpg', '', $filename) . "-sepia.jpg";
 
-        try {
+        if ($this->isAware()) {
             $image = new \Imagick($filename);
-            $image->sepiaToneImage(100);
+            $image->sepiaToneImage(80);
             $image->writeImage($sepiaFilename);
-        } catch (\Exception $e) {
-            $command = sprintf('convert -sepia-tone %s %s %s', '100%', $filename, $sepiaFilename);
+        } else {
+            $command = sprintf('convert -sepia-tone %s %s %s', '80%', $filename, $sepiaFilename);
             $process = new Process($command);
             $process->run();
 
