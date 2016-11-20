@@ -9,6 +9,7 @@
 namespace AppBundle\Model\Filter;
 
 use AppBundle\Model\Filter\Traits\ImagickAwareTrait;
+use Symfony\Component\Debug\Exception\ClassNotFoundException;
 use Symfony\Component\Process\Process;
 
 class SepiaFilter extends AbstractFilter
@@ -30,7 +31,7 @@ class SepiaFilter extends AbstractFilter
                 $image = new \Imagick($filename);
                 $image->sepiaToneImage(80);
                 $image->writeImage($sepiaFilename);
-            } catch (\Exception $e) {
+            } catch (ClassNotFoundException $e) {
                 $command = sprintf('convert -sepia-tone %s %s %s', '80%', $filename, $sepiaFilename);
                 $process = new Process($command);
                 $process->run();
